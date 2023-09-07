@@ -22,9 +22,9 @@ Get the repository:
 ```
 git clone --recursive https://github.com/vlsi-lab/keccak_integration.git
 ```
-And checkout for the branch desired.
+And check for the branch desired.
 ```
-git checkout keccak_pulpissimo
+git checkout keccak_XXX
 ```
 
 <!-- LICENSE -->
