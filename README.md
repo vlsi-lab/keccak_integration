@@ -7,7 +7,7 @@ In the **keccak_integration** repository you can find an example of how a post-q
 # Getting started
 The repository is organized as followed. 
 
-![Image](https://github.com/vlsi-lab/keccak_integration/blob/main/repo_organization.png)
+![Image](https://github.com/vlsi-lab/keccak_integration/blob/main/repo_org.png)
 
 There are two important branches:
 * keccak_pulpissimo
