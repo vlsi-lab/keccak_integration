@@ -7,7 +7,7 @@ If you are using this accelerator, please refers to:
 
 
 # Getting started
-The RISC-V PULPissimo microcontroller (Figure - I) from the open-source [PULP platform])(https://github.com/pulp-platform) project is used and configured to work with the 4-stage pipeline core RI5CY. Then, Keccak algorithm is compiled using [PULP toolchain](https://github.com/pulp-platform/pulp-riscv-gnu-toolchain), setting the optimization flag '-O3' and increasing the
+The RISC-V PULPissimo microcontroller (Figure - I) from the open-source [PULP platform](https://github.com/pulp-platform) project is used and configured to work with the 4-stage pipeline core RI5CY. Then, Keccak algorithm is compiled using [PULP toolchain](https://github.com/pulp-platform/pulp-riscv-gnu-toolchain), setting the optimization flag '-O3' and increasing the
 stack’s memory size (not for Keccak itself, but in the case of bigger applications, like PQC algorithms).
 
 The `randombytes` file is modified, generating a pseudo-random sequence of bytes, while `fips202`’s standard library functions are substituted
