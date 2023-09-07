@@ -1,0 +1,6 @@
+#ignore all the modelsim.ini files present in /test/name_test/build directories
+.ini
+*.log
+
+#ignore all the build-folder, since contains very large files for complex algorithm
+test/keccak_ip/build/
