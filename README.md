@@ -37,9 +37,9 @@ See `LICENSE.txt` for more information.
 
 <!-- CONTACT -->
 ## Contact
-Alessandra Dolmeta - [linkedin]([https://twitter.com/your_username](https://www.linkedin.com/in/alessandra-dolmeta-4884301a3/)) - alessandra.dolmeta@polito.it
+Alessandra Dolmeta - [linkedin](https://www.linkedin.com/in/alessandra-dolmeta-4884301a3/) - alessandra.dolmeta@polito.it
 
-Mattia Mirigaldi -  [linkedin]([[https://twitter.com/your_username](https://www.linkedin.com/in/alessandra-dolmeta-4884301a3/)](https://www.linkedin.com/in/mattia-mirigaldi-8109b9201/)) - mattia.mirigaldi@polito.it
+Mattia Mirigaldi -  [linkedin](https://www.linkedin.com/in/alessandra-dolmeta-4884301a3/)](https://www.linkedin.com/in/mattia-mirigaldi-8109b9201/) - mattia.mirigaldi@polito.it
 
 ## Reference
 Work has been presented at [TASER2023](https://ches.iacr.org/2023/forum.php), during [CHES](https://ches.iacr.org/2023/) conference.
