@@ -30,11 +30,8 @@ Prerequisites are explained in detail in the [main repository](https://github.co
 
 First, install the system dependencies indicated [here](https://github.com/pulp-platform/pulp-runtime/blob/master/README.md).
 
-Then, make sure you have  [riscv-gnu-toolchain](https://github.com/pulp-platform/pulp-riscv-gnu-toolchain) installed, and get the repository:
-```
-git clone --recursive https://github.com/vlsi-lab/keccak_integration.git
-git branch keccak_pulpissimo
-```
+Then, make sure you have  [riscv-gnu-toolchain](https://github.com/pulp-platform/pulp-riscv-gnu-toolchain) installed, and get the repository.
+
 Different bash files are present, to properly set the overall enviroment. In order to run #.sh files, point:
 ```
 source YOUR_QUESTA_SIM_PATH
