@@ -1,11 +1,11 @@
 # Introduction
 
-In the **keccak_integration** repository you can find an example of how a post-quantum crytpographic (PQC) hardware accelerator works. 
+In the **keccak_integration** repository you can find an example of how a post-quantum cryptographic (PQC) hardware accelerator works. 
 
 
 
 # Getting started
-The repository is organized as followed. 
+The repository is organized as follows. 
 
 ![Image](https://github.com/vlsi-lab/keccak_integration/blob/main/repo_org.png)
 
