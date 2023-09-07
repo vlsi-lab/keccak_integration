@@ -1,0 +1,41 @@
+CAPI=2:
+
+# Copyright 2023 POLITO
+# Solderpad Hardware License, Version 2.1, see LICENSE.md for details.
+# SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
+
+name: "vlsi:polito:keccak"
+description: "keccak HDL"
+
+filesets:
+
+  files_rtl_sv:
+    depend:
+    - x-heep::packages
+    - pulp-platform.org::common_cells
+    files:
+    - hw/rtl/gen_sv/keccak_data_reg_pkg.sv
+    - hw/rtl/gen_sv/keccak_data_reg_top.sv
+    - hw/rtl/gen_sv/keccak_ctrl_reg_pkg.sv
+    - hw/rtl/gen_sv/keccak_ctrl_reg_top.sv
+    - hw/rtl/keccak_cu.sv
+    - wrapper/keccak_top.sv
+    file_type: systemVerilogSource
+
+  files_rtl_vhdl:
+    depend:
+    - x-heep::packages
+    - pulp-platform.org::common_cells
+    files:
+    - hw/rtl/keccak_globals.vhd
+    - hw/rtl/keccak_round_constants_gen.vhd
+    - hw/rtl/keccak_round.vhd
+    - hw/rtl/keccak_datapath.vhd
+    - hw/rtl/keccak.vhd
+    file_type: vhdlSource    
+    
+targets:
+  default:
+    filesets:
+    - files_rtl_sv
+    - files_rtl_vhdl

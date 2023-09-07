@@ -1,0 +1,7 @@
+// Copyright 2023 PoliTO
+// Solderpad Hardware License, Version 2.1, see LICENSE.md for details.
+// SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
+//
+// Automatically generaged config. registers
+`verilator_config
+lint_off -rule WIDTH -file "*polito_pqc/keccak/rtl/gen_sv/keccak_reg_top.sv" -match "Operator ASSIGNW expects 9 bits on the Assign RHS, but Assign RHS's SEL generates 32 bits."

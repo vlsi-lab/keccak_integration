@@ -1,0 +1,20 @@
+// Copyright PoliTO
+// Licensed under the Solderpad Hardware License v2.1, see LICENSE.txt for details
+// SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
+
+{
+  name: "esl_epfl_x_heep",
+  target_dir: "esl_epfl_x_heep",
+
+  upstream: {
+    url: "https://github.com/esl-epfl/x-heep.git",
+    rev: "7dd9832ed653c793cc90c086c5f12034d386f0f1",
+  },
+
+  patch_dir: "patches/esl_epfl_x_heep",
+
+  exclude_from_upstream: [
+    ".github",
+    "ci",
+  ]
+}

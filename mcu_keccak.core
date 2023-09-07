@@ -1,0 +1,274 @@
+CAPI=2:
+
+# Copyright 2022 PoliTO
+# Solderpad Hardware License, Version 2.1, see LICENSE.md for details.
+# SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
+
+name: vlsi:polito:mcu_keccak
+description: Integration framework of keccak in MCU
+
+filesets:
+  keccak_x_heep:
+    depend:
+    - x-heep::packages
+    - openhwgroup.org:systems:core-v-mini-mcu
+    - vlsi:polito:keccak
+    files:
+    - hw/rtl/keccak_x_heep_pkg.sv
+    - hw/rtl/keccak_x_heep_top.sv
+    file_type: systemVerilogSource
+
+  x_heep_system:
+    depend:
+    - x-heep::packages
+    - x-heep:ip:pad_control
+    files:
+    - hw/vendor/esl_epfl_x_heep/hw/system/x_heep_system.sv
+    - hw/vendor/esl_epfl_x_heep/hw/system/pad_ring.sv
+    file_type: systemVerilogSource
+
+  tb-harness_x_heep:
+    files:
+    - tb/tb_util.svh: {is_include_file: true}
+    - tb/testharness.sv
+    - hw/vendor/esl_epfl_x_heep/tb/ext_xbar.sv
+    - hw/vendor/esl_epfl_x_heep/tb/ext_bus.sv 
+    file_type: systemVerilogSource
+
+  files_verilator_waiver_x_heep:
+    files:
+    - hw/vendor/esl_epfl_x_heep/tb/tb.vlt
+    - hw/misc/keccak_reg_top.vlt
+    file_type: vlt
+
+  fpga-pynq-z2_x_heep:
+    depend:
+    - openhwgroup.org:systems:core-v-mini-mcu
+    files:
+    - hw/vendor/esl_epfl_x_heep/tb/ext_xbar.sv
+    - hw/vendor/esl_epfl_x_heep/tb/ext_bus.sv
+    - hw/fpga/xilinx_keccak_x_heep_wrapper.sv
+    file_type: systemVerilogSource
+    
+  fpga-pynq-z2-arm_x_heep:
+    depend:
+    - openhwgroup.org:systems:core-v-mini-mcu
+    files:
+    - hw/linux_femu/rtl/linux_femu_keccak.sv
+    file_type: systemVerilogSource
+    
+
+  systemverilog_only_simjtag:
+    depend:
+    - pulp-platform.org::pulpissimo_simjtag
+
+  uartdpi:
+    depend:
+    - lowrisc:dv_dpi:uartdpi
+
+  systemverilog_only_uart:
+    files:
+    - hw/vendor/esl_epfl_x_heep/hw/vendor/lowrisc_opentitan/hw/dv/dpi/uartdpi/uartdpi.sv
+    file_type: systemVerilogSource
+
+  remote_bitbang_dpi:
+    depend:
+    - pulp-platform.org::pulpissimo_remote_bitbang
+
+  cypress_flash:
+    depend:
+    - ::spiflash:0
+
+  # Scripts for hooks
+  pre_build_remote_bitbang:
+    files:
+    - scripts/sim/compile_remote_bitbang.sh
+    file_type: user
+
+  pre_build_uartdpi:
+    files:
+    - scripts/sim/compile_uart_dpi.sh
+    file_type: user
+
+  pre_patch_modelsim_Makefile:
+    files:
+    - scripts/sim/modelsim/patch_modelsim_Makefile.py
+    file_type: user
+
+  tb-verilator_x_heep:
+    files:
+    - tb/tb_top.cpp
+    file_type: cppSource
+
+  tb-sv_x_heep:
+    files:
+    - hw/vendor/esl_epfl_x_heep/tb/tb_top.sv
+    file_type: systemVerilogSource
+
+  # rtl-simulation:
+  #   depend:
+  #   - pulp-platform.org::tech_cells_generic
+  #   files:
+  #   - hw/vendor/esl_epfl_x_heep/hw/simulation/sram_wrapper.sv
+  #   - hw/vendor/esl_epfl_x_heep/hw/simulation/pad_cell_bypass_input.sv
+  #   - hw/vendor/esl_epfl_x_heep/hw/simulation/pad_cell_bypass_output.sv
+  #   - hw/vendor/esl_epfl_x_heep/hw/simulation/pad_cell_inout.sv
+  #   - hw/vendor/esl_epfl_x_heep/hw/simulation/pad_cell_input.sv
+  #   - hw/vendor/esl_epfl_x_heep/hw/simulation/pad_cell_output.sv
+  #   file_type: systemVerilogSource
+
+parameters:
+  COREV_PULP:
+    datatype: int
+    paramtype: vlogparam
+    default: 0
+  FPU:
+    datatype: int
+    paramtype: vlogparam
+    default: 0
+  JTAG_DPI:
+    datatype: int
+    paramtype: vlogparam
+    default: 0
+  USE_EXTERNAL_DEVICE_EXAMPLE:
+    datatype: bool
+    paramtype: vlogdefine
+    default: false
+  USE_UPF:
+    datatype: bool
+    paramtype: vlogdefine
+    default: false
+  SYNTHESIS:
+    datatype: bool
+    paramtype: vlogdefine
+    default: false
+  FPGA_NETLIST:
+    datatype: bool
+    paramtype: vlogdefine
+    default: false
+  # Make the parameter known to FuseSoC to enable overrides from the
+  # command line. If not overwritten, use the generic technology library.
+  PRIM_DEFAULT_IMPL:
+    datatype: str
+    paramtype: vlogdefine
+    description: Primitives implementation to use, e.g. "prim_pkg::ImplGeneric".
+    default: prim_pkg::ImplGeneri
+scripts:
+  pre_build_remote_bitbang:
+    cmd:
+    - sh
+    - ../../../scripts/sim/compile_remote_bitbang.sh
+  pre_build_uartdpi:
+    cmd:
+    - sh
+    - ../../../scripts/sim/compile_uart_dpi.sh
+  pre_patch_modelsim_Makefile:
+    cmd:
+    - python
+    - ../../../scripts/sim/modelsim/patch_modelsim_Makefile.py
+
+targets:
+  default: &default_target
+    filesets:
+    - keccak_x_heep
+    toplevel: [keccak_x_heep_top]
+
+  sim:
+    <<: *default_target
+    #filesets:
+    #- keccak_x_heep
+    default_tool: modelsim
+    filesets_append:
+    - tb-harness_x_heep
+    
+    - tool_verilator? (uartdpi)
+    - tool_modelsim? (systemverilog_only_uart)
+    - tool_verilator? (files_verilator_waiver_x_heep)
+    - tool_verilator? (remote_bitbang_dpi)
+    - tool_modelsim? (systemverilog_only_simjtag)
+    - tool_modelsim? (cypress_flash)
+
+    - tool_modelsim? (pre_build_remote_bitbang)
+    - tool_modelsim? (pre_build_uartdpi)
+    - tool_modelsim? (pre_patch_modelsim_Makefile)
+    - tool_verilator? (tb-verilator_x_heep)
+    - tool_modelsim? (tb-sv_x_heep)
+    - "!integrated_heep? (x_heep_system)"
+    toplevel:
+    - tool_modelsim? (tb_top)
+    - tool_verilator? (testharness)
+    hooks:
+      pre_build:
+        - tool_modelsim? (pre_build_uartdpi)
+        - tool_modelsim? (pre_build_remote_bitbang)
+        - tool_modelsim? (pre_patch_modelsim_Makefile) # this is required by Questa 2020 on
+    parameters:
+    - use_cv32e40p_corev_pulp? (COREV_PULP=1)
+    - "!use_cv32e40p_corev_pulp? (COREV_PULP=0)"
+    - use_jtag_dpi? (JTAG_DPI=1)
+    - "!use_jtag_dpi? (JTAG_DPI=0)"
+    tools:
+      modelsim:
+        vlog_options:
+        - -override_timescale 1ns/1ps
+        - -suppress vlog-2583
+        - -suppress vlog-2577
+        - -pedanticerrors
+        - -define MODELSIM
+        vsim_options:
+        - -sv_lib ../../../hw/vendor/esl_epfl_x_heep/hw/vendor/lowrisc_opentitan/hw/dv/dpi/uartdpi/uartdpi
+        - -sv_lib ../../../hw/vendor/esl_epfl_x_heep/hw/vendor/pulp_platform_pulpissimo/rtl/tb/remote_bitbang/librbs
+        - -voptargs=+acc
+      verilator:
+        mode: cc
+        verilator_options:
+          - '--cc'
+          - '--trace'
+          - '--trace-fst'
+          - '--trace-structs'
+          - '--trace-params'
+          - '--trace-max-array 1024'
+          - '--x-assign unique'
+          - '--x-initial unique'
+          - '--exe tb_top.cpp'
+          - '-CFLAGS "-std=c++11 -Wall -g -fpermissive"'
+          - '-LDFLAGS "-pthread -lutil -lelf"'
+          - "-Wall"
+  pynq-z2:
+    <<: *default_target
+    default_tool: vivado
+    description: TUL Pynq-Z2 Board
+    filesets_append:
+    - x_heep_system
+    - fpga-pynq-z2_x_heep
+    parameters:
+    - use_cv32e40p_corev_pulp? (COREV_PULP=1)
+    - "!use_cv32e40p_corev_pulp? (COREV_PULP=0)"
+    - use_cv32e40p_fpu? (FPU=1)
+    - "!use_cv32e40p_fpu? (FPU=0)"
+    - SYNTHESIS=true
+    tools:
+      vivado:
+        part: xc7z020clg400-1
+    toplevel: [xilinx_keccak_x_heep_top_wrapper]
+  
+
+  # pynq-z2-arm-emulation_x_heep:
+  #   filesets:
+  #   - keccak_x_heep
+  #   default_tool: vivado
+  #   description: TUL Pynq-Z2 Board
+  #   filesets_append:
+  #   - x_heep_system
+  #   - fpga-pynq-z2-arm_x_heep
+  #   parameters:
+  #   - use_cv32e40p_corev_pulp? (COREV_PULP=1)
+  #   - "!use_cv32e40p_corev_pulp? (COREV_PULP=0)"
+  #   - use_cv32e40p_fpu? (FPU=1)
+  #   - "!use_cv32e40p_fpu? (FPU=0)"
+  #   - SYNTHESIS=true
+  #   tools:
+  #     vivado:
+  #       part: xc7z020clg400-1
+  #       jobs: 4
+  #   toplevel: [linux_femu_keccak]

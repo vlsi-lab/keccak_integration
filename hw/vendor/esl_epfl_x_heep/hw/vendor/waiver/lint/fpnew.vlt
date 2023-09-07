@@ -1,0 +1,18 @@
+// Copyright 2022 OpenHW Group
+// Solderpad Hardware License, Version 2.1, see LICENSE.md for details.
+// SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
+
+`verilator_config
+
+lint_off -rule LITENDIAN -file "*/pulp_platform_fpnew/src/*" -match "*"
+lint_off -rule LITENDIAN -file "*/pulp_platform_fpu_div_sqrt_mvp/hdl/*" -match "*"
+lint_off -rule WIDTH -file "*/pulp_platform_fpnew/src/*" -match "*"
+lint_off -rule WIDTH -file "*/pulp_platform_fpu_div_sqrt_mvp/hdl/*" -match "*"
+lint_off -rule UNUSED -file "*/pulp_platform_fpnew/src/*" -match "*"
+lint_off -rule UNUSED -file "*/pulp_platform_fpu_div_sqrt_mvp/hdl/*" -match "*"
+lint_off -rule WIDTHCONCAT -file "*/pulp_platform_fpnew/src/*" -match "*"
+lint_off -rule WIDTHCONCAT -file "*/pulp_platform_fpu_div_sqrt_mvp/hdl/*" -match "*"
+lint_off -rule BLKANDNBLK -file "*/pulp_platform_fpnew/src/*" -match "*"
+lint_off -rule BLKANDNBLK -file "*/pulp_platform_fpu_div_sqrt_mvp/hdl/*" -match "*"
+lint_off -rule IMPORTSTAR -file "*/pulp_platform_fpnew/src/*" -match "*"
+lint_off -rule IMPORTSTAR -file "*/pulp_platform_fpu_div_sqrt_mvp/hdl/*" -match "*"

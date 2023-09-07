@@ -1,0 +1,23 @@
+// Copyright PoliTO
+// Licensed under the Solderpad Hardware License v2.1, see LICENSE.txt for details
+// SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
+
+// Designed by Alessandra Dolmeta, Mattia Mirigaldi
+// alessandra.dolmeta@polito.it, mattiamirigaldi.98017@gmail.com
+//
+
+{
+  name: "vlsi_polito_keccak",
+  target_dir: "vlsi_polito_keccak",
+
+  upstream: {
+    url: "https://git.vlsilab.polito.it/crypto_accelerators/keccak", 
+    rev: "keccak_x_heep",
+  },
+
+  exclude_from_upstream: [
+    ".gitattributes",
+    "README.md",
+    ".gitignore"
+  ]
+}
