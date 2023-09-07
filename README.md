@@ -17,3 +17,17 @@ There are two important branches:
 stack’s memory size.
 
 [X-Heep](https://github.com/esl-epfl/x-heep.git) (eXtendable Heterogeneous Energy-Efficient Platform) is a RISC-V microcontroller described in SystemVerilog that can be configured to target small and tiny platforms as well as extended to support accelerators.
+
+<!-- LICENSE -->
+## License
+Distributed under the MIT License. See `LICENSE.txt` for more information.
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- CONTACT -->
+## Contact
+Alessandra Dolmeta - [@linkedin ]([https://twitter.com/your_username](https://www.linkedin.com/in/alessandra-dolmeta-4884301a3/)) - alessandra.dolmeta@polito.it
+Mattia Mirigaldi -  [@linkedin ]([[https://twitter.com/your_username](https://www.linkedin.com/in/alessandra-dolmeta-4884301a3/)](https://www.linkedin.com/in/mattia-mirigaldi-8109b9201/)) - mattia.mirigaldi@polito.it
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
