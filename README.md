@@ -20,14 +20,16 @@ stack’s memory size.
 
 <!-- LICENSE -->
 ## License
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+Distributed under the MIT License.
+See `LICENSE.txt` for more information.
+
 
 
 
 <!-- CONTACT -->
 ## Contact
 Alessandra Dolmeta - [@linkedin ]([https://twitter.com/your_username](https://www.linkedin.com/in/alessandra-dolmeta-4884301a3/)) - alessandra.dolmeta@polito.it
+
 Mattia Mirigaldi -  [@linkedin ]([[https://twitter.com/your_username](https://www.linkedin.com/in/alessandra-dolmeta-4884301a3/)](https://www.linkedin.com/in/mattia-mirigaldi-8109b9201/)) - mattia.mirigaldi@polito.it
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
