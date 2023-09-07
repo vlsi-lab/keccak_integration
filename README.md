@@ -10,8 +10,8 @@ The repository is organized as followed.
 ![Image](https://github.com/vlsi-lab/keccak_integration/blob/main/repo_org.png)
 
 There are two important branches:
-* keccak_pulpissimo
-* keccak_xheep
+* __keccak_pulpissimo__
+* __keccak_xheep__
 
 [PULPissimo](https://github.com/pulp-platform/pulpissimo.git) is a microcontroller from the open-source PULP platform project is used and configured to work with the 4-stage pipeline core RI5CY. Then, Keccak and [CRYSTALS-Kyber](https://github.com/PQClean/PQClean/tree/master/crypto_kem) algorithms are compiled using [PULP toolchain](https://github.com/pulp-platform/pulp-riscv-gnu-toolchain), setting the optimization flag '-O3' and increasing the
 stack’s memory size.
