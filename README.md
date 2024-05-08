@@ -1,3 +1,7 @@
+# **KRONOS**
+
+## (K)eccak (R)ISC-V (O)ptimized e(N)gine f(O)r Ha(S)hing 
+
 # Introduction
 
 In the **keccak_integration** repository you can find an example of how a post-quantum cryptographic (PQC) hardware accelerator works. 
