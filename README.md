@@ -1,4 +1,3 @@
-# mcu_keccak
-X-HEEP with Keccak accelerator
+**# **KRONOS**
 
-
+## (K)eccak (R)ISC-V (O)ptimized e(N)gine f(O)r Ha(S)hing 
