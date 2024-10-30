@@ -3,3 +3,15 @@
 
 #infore the build directory
 build
+
+# ignore from verification
+# files
+transcript
+vsim.wlf
+vsim_stacktrace.vstf
+*.ucdb
+# folders
+work
+ucdb
+covhtmlreport
+report.txt
