@@ -1,0 +1,116 @@
+# Keccak component UVM verification
+
+Verification for the Keccak component is implemented with SystemVerilog utilizing Universal Verification Methodology (UVM) following its principles.
+The verification is done in simulation using Questasim from Mentor (2020.4). The verificatoin is placed in the `verif` directory.
+
+## Run
+
+The verification is executed through the `start_verification.sh` bash script.
+The script contains various options, such as:
+- running multiple tests - tests have to be specified in file, forces simulation to run in cmdline mode
+- specifying seed - useful for randomizing seed and reproducing results afterwards
+- clean (removes all git ignored folders and files)
+
+NOTE: For full spectrum of options use `./start_verification -h` or `./start_verification -help`
+
+### Examples of running the verification:
+- Run verification with default setup with default test and seed in GUI `./start_verificaton.sh`
+- Run verification with specified test `./start_verification.sh -uvm_testname keccak_start`
+- Run verification in cmdline `./start_verification.sh -c`
+- Run multiple tests `./start_verification -uvm_tests_file <path_to_tests_file> -run_multiple_tests`
+  - using `-run_multiple_tests` without specifying file with tests leads to an error, there is no default file with list of tests
+- Run verification, specifying number of transactions `./start_verification.sh -trans_cnt 123456`
+  - if `-trans_cnt 0`, default value will be used
+- Remove all files and folders ignored by the git `./start_verification -clean`
+  - the clean command includes only default names (work/ ucdb/ covhtmlreport/ transcript vsim.wlf report.txt merged.ucdb)
+
+### After the verification is executed you can:
+- check the results in log file `transcript`
+- check the coverage results stored withing `ucdb` folder that contains database file `test_name.ucdb` for each test executed.
+  - you can generate coverage reports
+    - html report `vcover report -html -output covhtmlreport -annotate -details -assert -directive -cvg -code bcefst ucdb/keccak_test.ucdb`
+    - text report `vcover report -output report.txt -details -srcfile=* -assert -directive -cvg -codeAll ucdb/keccak_test.ucdb`
+  - `-code` option with these commands specify types of code coverage reported, each letter `bcefst` representing different type
+
+  NOTE: `-code bcefst` and `-codeAll` are interchangable if you specify all code coverage types
+
+  - if you happen to execute multiple tests having multiple `.ucdb` files, you can merge them
+    - `vcover merge -64 merged.ucdb ucdb/keccak_test_1.ucdb ucdb/keccak_test_2.ucdb`
+
+- check the waves with command `vsim -view vsim.wlf` followed by `add wave -r *` command within the gui transcript
+  - while the file is generated also when using only cmdline to execute the simulation, it does not contain any waves, as the waves for the signals are only created when simulation is executed within GUI mode
+
+## UVM Testbench Description
+
+Following the UVM principles, there are directories and files containing the testbench architecture and scripts for running the verification.
+
+### Folders and files:
+- golden_model - contains implementation of golden model (GM, reference model) for computation of reference values for comparison with RTL output
+- keccak_agent - contains implementation of UVM agent for keccak component
+- env_lib - contains environment of the UVM testbench, instantiating Keccak agent, GM, and scoreboard
+- test_lib
+  - contains implementaiton of tests that can be run to verify the component
+  - test to run is selected within top_level.sv file with command `run_test( "keccak_test" );` that starts the whole verification.
+- eda_scripts - contains tcl scripts for running the simulation
+
+- dut.sv - instantiates the Keccak component and Keccak agent interface, connecting the interface to the component
+- top_level.sv
+  - instatiates the DUT, Keccak agent interface, generates clock, defines format for reporting, process arguments
+  - starts the whole verification with command `run_test( "keccak_test" );`
+- test_parameters.sv - contains `sv_param_pkg` encompassing parameters used throughout the UVM verification testbench
+- start_verification - shell script used to start the verification
+- rtl_files.f - list of RTL files used by scripts for compilation
+
+### Git ignored folders and files:
+- ucdb - contains collection of database files (.ucdb) for each test that was executed, named after the test
+- work - work folder
+- covhtmlreport - default name of the folder containing html coverage report
+
+- transcript - contains log of executed simulation
+- vsim.wlf - contains stored waves of executed simulation, it can be opened with command `vsim -view vsim.wlf` followed by `add wave -r *` command with the gui transcript.
+- report.txt - default name of the file containing text coverage report
+- merged.ucdb - default name of the file containing result of merging two or more ucdb files
+
+### Directory Hierarchy
+
+```
+├── eda_scripts
+│   └── questa
+│       ├── compile.tcl
+│       ├── start_common.tcl
+│       ├── start.tcl
+│       └── wave.tcl
+├── env_lib
+│   ├── env.svh
+│   ├── scoreboard.svh
+│   └── sv_env_pkg.sv
+├── golden_model
+│   ├── golden_model.svh
+│   └── sv_golden_model_pkg.sv
+├── keccak_agent
+│   ├── keccak_agent.svh
+│   ├── keccak_coverage.svh
+│   ├── keccak_driver.svh
+│   ├── keccak_itf.sv
+│   ├── keccak_monitor.svh
+│   ├── keccak_sequencer.svh
+│   ├── keccak_sequence.svh
+│   ├── keccak_transaction.svh
+│   └── sv_keccak_agent_pkg.sv
+├── keccak_verif.core
+├── dut.sv
+├── rtl_files.f
+├── start_verification.sh
+├── test_lib
+│   ├── sv_test_pkg.sv
+│   ├── test_base.svh
+│   └── test.svh
+├── test_parameters.sv
+├── top_level.sv
+├── transcript
+├── ucdb
+│   └── keccak_test.ucdb
+├── vsim.wlf
+└── work
+
+```
