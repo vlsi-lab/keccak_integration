@@ -224,3 +224,62 @@ export HEEP_DIR = hw/vendor/esl_epfl_x_heep/
 XHEEP_MAKE = $(HEEP_DIR)external.mk
 #include $(XHEEP_MAKE)
 
+########################## Keccak Component UVM Verification ##########################
+keccak_dir := $(realpath hw/vendor/vlsi_polito_keccak)
+keccak_verif_dir := $(keccak_dir)/verif
+
+ARGS :=
+
+UVM_TESTNAME ?= keccak_test
+UVM_TESTS_FILE ?=
+RUN_MULTIPLE_TESTS ?=
+SEED ?=
+TRANS_CNT ?= 1024
+
+ifdef TRANS_CNT
+ARGS += -trans_cnt $(TRANS_CNT)
+endif
+
+ifdef SEED
+ARGS += -seed $(SEED)
+endif
+
+ifdef UVM_TESTNAME
+ARGS += -uvm_testname $(UVM_TESTNAME)
+endif
+
+ifdef UVM_TESTS_FILE
+ARGS += -uvm_tests_file $(UVM_TESTS_FILE)
+endif
+
+ifdef RUN_MULTIPLE_TESTS
+ARGS += -run_multiple_tests
+endif
+
+comp-verif-run:
+	@cd $(keccak_verif_dir) && ./start_verification.sh -c $(ARGS)
+
+comp-verif-run-gui:
+	@cd $(keccak_verif_dir) && ./start_verification.sh $(ARGS)
+
+verif_res_dir:
+	@mkdir -p verif_res
+
+comp-verif-cov-rep-html: verif_res_dir
+	vcover report -html -output verif_res/covhtmlreport -annotate -details -assert -directive -cvg -codeAll $(keccak_verif_dir)/ucdb/$(UVM_TESTNAME).ucdb
+
+comp-verif-cov-rep-txt: verif_res_dir
+	vcover report -output verif_res/report.txt -details -srcfile=* -assert -directive -cvg -codeAll $(keccak_verif_dir)/ucdb/$(UVM_TESTNAME).ucdb
+
+comp-verif-cov-merge: verif_res_dir
+	vcover merge -64 verif_res/merged.ucdb $(keccak_verif_dir)/ucdb/*ucdb
+
+comp-verif-cov-merge-rep-html: verif_res_dir
+	vcover report -html -output covhtmlreport -annotate -details -assert -directive -cvg -codeAll verif_res/merged.ucdb
+
+comp-verif-cov-merge-rep-txt: verif_res_dir
+	vcover report -output report.txt -details -srcfile=* -assert -directive -cvg -codeAll verif_res/merged.ucdb
+
+comp-verif-clean:
+	@cd $(keccak_verif_dir) && ./start_verification.sh -clean
+	@rm -rf verif_res
