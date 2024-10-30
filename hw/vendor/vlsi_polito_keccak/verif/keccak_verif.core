@@ -1,0 +1,92 @@
+CAPI=2:
+
+name: "vlsi:polito:keccak_verification"
+description: UVM verification environment for Keccak IP
+
+filesets:
+  verification_src:
+    files:
+      - test_parameters.sv
+      - keccak_agent/sv_keccak_agent_pkg.sv
+      - golden_model/sv_golden_model_pkg.sv
+      - env_lib/sv_env_pkg.sv
+      - test_lib/sv_test_pkg.sv
+      - keccak_agent/keccak_itf.sv
+      - dut.sv
+      - top_level.sv
+    file_type: systemVerilogSource
+
+  keccak_files_vhd:
+    files:
+      - ../hw/rtl/keccak_globals.vhd
+      - ../hw/rtl/keccak_round_constants_gen.vhd
+      - ../hw/rtl/keccak_round.vhd
+      - ../hw/rtl/keccak_datapath.vhd
+      - ../hw/rtl/keccak.vhd
+    file_type: vhdlSource
+
+  keccak_files_sv:
+    files:
+      - ../hw/rtl/keccak_cu.sv
+    file_type: systemVerilogSource
+
+
+parameters:
+  timescale:
+    datatype: str
+    default: "1ps/1ps"
+    description: "Timescale for simulation"
+    paramtype: vlogparam
+  UVM_TESTNAME:
+    datatype: str
+    description: "Name of the UVM test"
+    default: "default_test"
+    paramtype: cmdlinearg
+  extra_args:
+    datatype: str
+    description: "Extra arguments passed to the TCL script"
+    default: ""
+    paramtype: cmdlinearg
+
+
+targets:
+  default:
+    filesets: [verification_src, keccak_files_vhd, keccak_files_sv]
+    tools:
+      modelsim:
+        vcom_options:
+          - -explicit
+          - "-2008"
+          - -source
+          - +cover=sbcef
+          - -nowarn 13
+          - -work work
+        vlog_options:
+          - -sv
+          - -incr
+          - -source
+          - -timescale "1ps/1ps"
+          - -work work
+          - -suppress 8386
+        tcl_source:
+          - eda_scripts/fusesoc-questa/wave.tcl
+        sim_options:
+          - -c
+          - -do
+          - "do eda_scripts/fusesoc-questa/start.tcl"
+        vsim_options:
+          - -voptargs="+acc=rn"
+          - -msgmode both
+          - -coverage
+          - -t 1ps
+          - -lib work
+          - "+UVM_TESTNAME=keccak_test"
+    default_tool: modelsim
+    toplevel: top
+  sim:
+    default_tool: modelsim
+    tools:
+      modelsim:
+        tcl_source:
+          - eda_scripts/fusesoc-questa/wave.tcl
+    toplevel: top
