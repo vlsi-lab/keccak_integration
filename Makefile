@@ -59,6 +59,9 @@ app-helloworld:
 app-keccak:
 	$(MAKE) -C sw applications/keccak_test/main.hex  TARGET=$(TARGET) USE_DMA=$(USE_DMA)
 
+app-keccak-rand:
+	$(MAKE) -C sw applications/keccak_rand/main.hex  TARGET=$(TARGET) USE_DMA=$(USE_DMA)
+
 ########################## KYBER-512 ##########################
 app-kyber512-keygen: 
 	$(MAKE) -C sw applications/kyber512/keygen/keygen.hex TARGET=$(TARGET) SEC_LEVEL=512
@@ -95,6 +98,9 @@ app-kyber1024-dec:
 questasim-sim:
 	$(FUSESOC) --cores-root . run --no-export --target=sim --tool=modelsim $(FUSESOC_FLAGS) --setup --build vlsi:polito:mcu_keccak 2>&1 | tee buildsim.log
 
+questasim-sim-uvm:
+	$(FUSESOC) --cores-root . run --no-export --target=sim --tool=modelsim $(FUSESOC_FLAGS) --setup --build vlsi:polito:mcu_keccak_uvm_verif 2>&1 | tee buildsim.log
+
 verilator-sim: 
 	fusesoc --cores-root . run --no-export --target=sim --tool=verilator $(FUSESOC_FLAGS) --setup --build vlsi:polito:mcu_keccak 2>&1 | tee buildsim.log
 
@@ -122,6 +128,29 @@ run-keccak-questasim-gui: questasim-sim app-keccak
 	cat uart0.log; \
 	cd ../../..;
 
+run-keccak-questasim-uvm: questasim-sim-uvm app-keccak
+	cd ./build/vlsi_polito_mcu_keccak_uvm_verif_0/sim-modelsim; \
+	make run PLUSARGS="c firmware=../../../sw/applications/keccak_test/main.hex"; \
+	cat uart0.log; \
+	cd ../../..;
+
+run-keccak-questasim-uvm-gui: questasim-sim-uvm app-keccak
+	cd ./build/vlsi_polito_mcu_keccak_uvm_verif_0/sim-modelsim; \
+	make run-gui PLUSARGS="c firmware=../../../sw/applications/keccak_test/main.hex"; \
+	cat uart0.log; \
+	cd ../../..;
+
+run-keccak-rand-questasim-uvm: questasim-sim-uvm app-keccak-rand
+	cd ./build/vlsi_polito_mcu_keccak_uvm_verif_0/sim-modelsim; \
+	make run PLUSARGS="c firmware=../../../sw/applications/keccak_rand/main.hex"; \
+	cat uart0.log; \
+	cd ../../..;
+
+run-keccak-rand-questasim-uvm-gui: questasim-sim-uvm app-keccak-rand
+	cd ./build/vlsi_polito_mcu_keccak_uvm_verif_0/sim-modelsim; \
+	make run-gui PLUSARGS="c firmware=../../../sw/applications/keccak_rand/main.hex"; \
+	cat uart0.log; \
+	cd ../../..;
 ########################## KYBER-512 ##########################
 
 run-kyber512-keygen-questasim: questasim-sim app-kyber512-keygen
