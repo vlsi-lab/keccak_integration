@@ -86,6 +86,7 @@ void KeccakF1600_StatePermute(uint32_t* Din, uint32_t* Dout)
   CSR_SET_BITS(CSR_REG_MIE, mask);
 
   // Starting the performance counter
+  CSR_CLEAR_BITS(CSR_REG_MCOUNTINHIBIT, 0x1);
   CSR_WRITE(CSR_REG_MCYCLE, 0);
 
   #if USE_DMA == 1
@@ -215,7 +216,7 @@ void KeccakF1600_StatePermute(uint32_t* Din, uint32_t* Dout)
 
   // stop the HW counter used for monitoring
   CSR_READ(CSR_REG_MCYCLE, &cycles);
-  //printf("Number of clock cycles : %d\n", cycles);
+  printf("Number of clock cycles : %d\n", cycles);
   //printf("Number of instructions : %d\nNumber of clock cycles: %d\nCPI: %f%f\n",instr_cnt, cycles_cnt, (float) instr_cnt/cycles_cnt);
   
 }
